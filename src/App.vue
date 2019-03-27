@@ -24,21 +24,19 @@ export default {
  },
   data(){
    return {
-       todos:[
-           {
-               title:"吃饭🍚",
-               complete:false
-           },
-           {
-               title:"看书📚",
-               complete:true
-           },
-           {
-               title:"生气啦😤",
-               complete:false
-           }
-       ]
+     //从localstorage读取todos
+       todos: JSON.parse( window.localStorage.getItem('todos_key')||'[]')
+      
    }
+  },
+  watch:{  //深度监视
+    todos:{
+      deep:true,
+      handler:function (value) {
+        //将todos最新的值的json数据，保存到localstorage
+        window.localStorage.setItem('todos_key',JSON.stringify(value))
+      }
+    }
   },
   methods:{
     addTodo(todo){
